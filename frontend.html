@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Builder - ID & LocalStorage Flow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-6">
+
+  <div class="max-w-xl w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
+    <!-- Header -->
+    <div>
+      <h1 class="text-2xl font-bold text-indigo-400 flex items-center gap-2">
+        <span>⚡</span> App Deployment Dashboard
+      </h1>
+      <p class="text-xs text-slate-400 mt-1">
+        Generates unique App IDs, stores state in LocalStorage, and fetches live deployment URLs.
+      </p>
+    </div>
+
+    <!-- Step 1: Prompt & Generate -->
+    <div class="space-y-3 border-b border-slate-800 pb-6">
+      <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">1. Describe Web Application</label>
+      <textarea id="promptInput" rows="3" 
+        placeholder="e.g. Build a Web3 event ticketing landing page with dark theme..." 
+        class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 text-sm focus:outline-none focus:border-indigo-500"></textarea>
+
+      <button id="deployBtn" onclick="handleGenerateAndDeploy()" 
+        class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold text-sm py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+        <span>🚀</span> Generate & Deploy App
+      </button>
+
+      <p id="appIdStatus" class="text-xs font-mono text-slate-400 hidden">
+        Current App ID: <span id="currentAppId" class="text-indigo-300"></span>
+      </p>
+    </div>
+
+    <!-- Step 2: Fetch Live URL by ID -->
+    <div class="space-y-3">
+      <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">2. Check Deployment Status</label>
+      
+      <button id="getUrlBtn" onclick="handleGetUrl()" 
+        class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm py-3 rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2">
+        <span>🔍</span> Get Deployed URL from LocalStorage ID
+      </button>
+    </div>
+
+    <!-- Live URL Output Card -->
+    <div id="resultCard" class="p-4 bg-emerald-950/40 border border-emerald-500/40 rounded-xl hidden">
+      <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm mb-1">
+        <span>🎉</span> Deployed Successfully!
+      </div>
+      <p class="text-xs text-slate-400 mb-3">Live URL mapped to your App ID:</p>
+      
+      <a id="deployedUrlLink" href="#" target="_blank" rel="noopener noreferrer" 
+        class="flex items-center justify-between p-3 bg-slate-950 border border-slate-800 hover:border-emerald-500 rounded-lg text-emerald-300 font-mono text-xs break-all transition-all group">
+        <span id="urlDisplay"></span>
+        <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // 1. Generate App ID, save to LocalStorage, and trigger backend deployment
+    async function handleGenerateAndDeploy() {
+      const prompt = document.getElementById('promptInput').value.trim();
+      if (!prompt) return alert("Please enter a prompt!");
+
+      // Generate unique App ID (e.g., app_1710000000_a1b2)
+      const appId = 'app_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+
+      // Save App ID in LocalStorage
+      localStorage.setItem('active_app_id', appId);
+
+      // UI updates
+      document.getElementById('currentAppId').innerText = appId;
+      document.getElementById('appIdStatus').classList.remove('hidden');
+      document.getElementById('resultCard').classList.add('hidden');
+
+      const btn = document.getElementById('deployBtn');
+      btn.disabled = true;
+      btn.innerText = "Deployment Triggered...";
+
+      try {
+        const res = await fetch('http://localhost:8000/api/deploy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ app_id: appId, prompt: prompt })
+        });
+        const data = await res.json();
+        alert(`Deployment started for ID: ${appId}. You can click 'Get Deployed URL' in a few moments.`);
+      } catch (err) {
+        alert("Error starting deployment: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "🚀 Generate & Deploy App";
+      }
+    }
+
+    // 2. Read App ID from LocalStorage and query backend for URL
+    async function handleGetUrl() {
+      const storedAppId = localStorage.getItem('active_app_id');
+
+      if (!storedAppId) {
+        return alert("No App ID found in localStorage! Click 'Generate & Deploy' first.");
+      }
+
+      try {
+        const res = await fetch(`http://localhost:8000/api/get-url/${storedAppId}`);
+        if (!res.ok) {
+          throw new Error("App ID not found on server.");
+        }
+
+        const data = await res.json();
+
+        if (data.status === "processing") {
+          alert(`App [${storedAppId}] is still generating/deploying. Please wait a few seconds and try again.`);
+        } else if (data.status === "completed" && data.url) {
+          const urlLink = document.getElementById('deployedUrlLink');
+          const urlDisplay = document.getElementById('urlDisplay');
+
+          urlLink.href = data.url;
+          urlDisplay.innerText = data.url;
+          document.getElementById('resultCard').classList.remove('hidden');
+        } else {
+          alert(`Deployment failed or URL not found for App ID: ${storedAppId}`);
+        }
+      } catch (err) {
+        alert("Error fetching URL: " + err.message);
+      }
+    }
+
+    // On page load: check if an App ID already exists in localStorage
+    window.addEventListener('DOMContentLoaded', () => {
+      const storedAppId = localStorage.getItem('active_app_id');
+      if (storedAppId) {
+        document.getElementById('currentAppId').innerText = storedAppId;
+        document.getElementById('appIdStatus').classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
