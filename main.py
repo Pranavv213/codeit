@@ -125,7 +125,7 @@ def run_pipeline_task(app_id: str, prompt: str):
     langgraph_agent.invoke(initial_state)
 
 # ---------------------------------------------------------------------------
-# 4. FastAPI Routes
+# 4. FastAPI Route
 # ---------------------------------------------------------------------------
 
 app = FastAPI(title="App ID Deployment API")
