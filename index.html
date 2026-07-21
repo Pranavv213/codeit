@@ -3,98 +3,672 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NebulaNFT | Premium Digital Assets Marketplace</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>StockWise - Invest Smarter, Trade Confidently</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .gradient-text { background: linear-gradient(90deg, #8b5cf6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* Basic Reset & Variables */
+        :root {
+            --primary-color: #4CAF50; /* Green for growth */
+            --primary-dark: #388E3C;
+            --secondary-color: #2196F3; /* Blue for info/action */
+            --accent-color: #FFC107; /* Amber for highlights */
+            --text-color: #333;
+            --light-text-color: #666;
+            --bg-color: #f8f9fa;
+            --light-bg-color: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: rgba(0, 0, 0, 0.05);
+            --font-family: 'Inter', sans-serif;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn.primary {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .btn.primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .btn.secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 10px 23px; /* Adjust padding for border */
+        }
+
+        .btn.secondary:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .btn.large {
+            padding: 15px 35px;
+            font-size: 1.1em;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        h1 { font-size: 2.8em; line-height: 1.2; }
+        h2 { font-size: 2.2em; text-align: center; margin-bottom: 40px; }
+        h3 { font-size: 1.5em; }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--light-text-color);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--light-bg-color);
+            box-shadow: 0 2px 4px var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        header nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        header nav ul li a {
+            color: var(--light-text-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #66BB6A 100%);
+            color: #fff;
+            padding: 80px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .hero-section .hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            text-align: left;
+        }
+
+        .hero-content h1 {
+            color: #fff;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .hero-graph {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-graph svg {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* SVG Chart Animation */
+        .chart-line {
+            stroke-dasharray: 1000; /* A value larger than the path length */
+            stroke-dashoffset: 1000;
+            animation: draw 3s ease-out forwards;
+        }
+
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+            background-color: var(--light-bg-color);
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--bg-color);
+        }
+
+        /* Features Section */
+        .features-section .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-item .icon {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-item h3 {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .feature-item p {
+            font-size: 0.95em;
+            color: var(--light-text-color);
+        }
+
+        /* How It Works Section */
+        .how-it-works-section .steps-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step-item {
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .step-item .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .step-item h3 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .step-item p {
+            font-size: 0.95em;
+            color: var(--light-text-color);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .cta-section h2 {
+            color: #fff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .cta-section .btn.primary {
+            background-color: #fff;
+            color: var(--primary-color);
+        }
+
+        .cta-section .btn.primary:hover {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-color);
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .footer-links a,
+        .social-links a {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover,
+        .social-links a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-section .hero-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content, .hero-graph {
+                max-width: 100%;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8em;
+            }
+
+            header nav ul {
+                display: none; /* Hide nav links on smaller screens for simplicity */
+            }
+
+            header nav {
+                justify-content: center; /* Center logo and auth buttons */
+            }
+
+            .auth-buttons {
+                position: absolute;
+                right: 20px;
+            }
+
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.3em; }
+
+            .cta-section h2 {
+                font-size: 2em;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .footer-links, .social-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.2em;
+            }
+            .hero-content p {
+                font-size: 1em;
+            }
+            .btn.large {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            .features-section .feature-grid,
+            .how-it-works-section .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .feature-item, .step-item {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            h2 { margin-bottom: 30px; }
+            section { padding: 60px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .logo { font-size: 1.5em; }
+            .auth-buttons {
+                gap: 10px;
+                right: 10px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+            .btn.secondary {
+                padding: 8px 18px;
+            }
+            .hero-content h1 { font-size: 1.8em; }
+            .hero-content p { font-size: 0.9em; }
+            .cta-section h2 { font-size: 1.6em; }
+            .cta-section p { font-size: 1em; }
+        }
     </style>
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <div class="text-2xl font-bold tracking-tighter flex items-center gap-2">
-            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg"></div>
-            NEBULA
-        </div>
-        <div class="hidden md:flex gap-8 font-medium text-gray-300">
-            <a href="#" class="hover:text-white transition">Marketplace</a>
-            <a href="#" class="hover:text-white transition">Explore</a>
-            <a href="#" class="hover:text-white transition">Create</a>
-        </div>
-        <button id="connectBtn" class="bg-white text-slate-900 px-6 py-2 rounded-full font-semibold hover:bg-gray-200 transition">
-            Connect Wallet
-        </button>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="max-w-7xl mx-auto px-8 py-16 grid md:grid-cols-2 gap-12 items-center">
-        <div>
-            <h1 class="text-6xl font-extrabold leading-tight mb-6">Discover, Collect, and Sell <span class="gradient-text">Rare NFTs</span></h1>
-            <p class="text-gray-400 text-lg mb-8">The world's premier marketplace for digital art and collectibles. Join the future of ownership on the blockchain.</p>
-            <div class="flex gap-4">
-                <button class="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-xl font-bold transition">Explore Marketplace</button>
-                <button class="border border-gray-700 hover:bg-gray-800 px-8 py-4 rounded-xl font-bold transition">Create NFT</button>
+    <header>
+        <nav>
+            <div class="logo">StockWise</div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#" class="btn secondary">Login</a>
+                <a href="#" class="btn primary">Sign Up</a>
             </div>
-        </div>
-        <div class="glass p-4 rounded-3xl rotate-3 hover:rotate-0 transition duration-500">
-            <img src="https://images.unsplash.com/photo-1634973357973-f2ed2657db3c?auto=format&fit=crop&w=800&q=80" class="rounded-2xl w-full h-96 object-cover" alt="NFT Art">
-        </div>
+        </nav>
     </header>
 
-    <!-- Trending Section -->
-    <section class="max-w-7xl mx-auto px-8 py-20">
-        <h2 class="text-3xl font-bold mb-12">Trending Collections</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <!-- Card 1 -->
-            <div class="glass p-5 rounded-2xl hover:border-purple-500 transition cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=400&q=80" class="rounded-xl mb-4 w-full h-64 object-cover">
-                <h3 class="font-bold text-xl">Cyber Punk #402</h3>
-                <div class="flex justify-between mt-4 text-sm text-gray-400">
-                    <span>Price</span>
-                    <span class="text-white font-bold">2.5 ETH</span>
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="container hero-inner">
+                <div class="hero-content">
+                    <h1>Invest Smarter, Trade Confidently.</h1>
+                    <p>Unlock your financial potential with StockWise. Seamlessly buy and sell stocks with real-time data and powerful tools.</p>
+                    <a href="#" class="btn primary large">Start Trading Now</a>
+                </div>
+                <div class="hero-graph">
+                    <svg viewBox="0 0 600 300" preserveAspectRatio="xMidYMid meet" class="stock-chart">
+                        <defs>
+                            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:rgba(76, 175, 80, 0.6);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:rgba(76, 175, 80, 0.0);stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Grid lines -->
+                        <line x1="50" y1="50" x2="50" y2="250" stroke="#eee" stroke-width="1" />
+                        <line x1="50" y1="250" x2="550" y2="250" stroke="#eee" stroke-width="1" />
+                        <line x1="50" y1="150" x2="550" y2="150" stroke="#eee" stroke-width="0.5" stroke-dasharray="5,5" />
+                        <line x1="50" y1="50" x2="550" y2="50" stroke="#eee" stroke-width="0.5" stroke-dasharray="5,5" />
+
+                        <!-- Chart path - d attribute defines the shape -->
+                        <path class="chart-line" fill="url(#chartGradient)" stroke="#4CAF50" stroke-width="2"
+                              d="M50 200 C 150 150, 250 220, 350 100 C 450 50, 500 120, 550 80 L 550 250 L 50 250 Z" />
+
+                        <!-- Current price marker -->
+                        <circle cx="550" cy="80" r="6" fill="#4CAF50" stroke="#fff" stroke-width="2" />
+                        <text x="560" y="85" fill="#fff" font-size="14px" font-weight="bold" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">$150.75</text>
+
+                        <!-- Labels -->
+                        <text x="40" y="255" fill="#fff" font-size="12px" text-anchor="end" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">$50</text>
+                        <text x="40" y="155" fill="#fff" font-size="12px" text-anchor="end" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">$150</text>
+                        <text x="40" y="55" fill="#fff" font-size="12px" text-anchor="end" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">$250</text>
+
+                        <text x="50" y="270" fill="#fff" font-size="12px" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">Jan</text>
+                        <text x="200" y="270" fill="#fff" font-size="12px" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">Mar</text>
+                        <text x="350" y="270" fill="#fff" font-size="12px" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">Jun</text>
+                        <text x="500" y="270" fill="#fff" font-size="12px" text-shadow="1px 1px 2px rgba(0,0,0,0.3)">Sep</text>
+                    </svg>
                 </div>
             </div>
-            <!-- Card 2 -->
-            <div class="glass p-5 rounded-2xl hover:border-purple-500 transition cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80" class="rounded-xl mb-4 w-full h-64 object-cover">
-                <h3 class="font-bold text-xl">Abstract Void</h3>
-                <div class="flex justify-between mt-4 text-sm text-gray-400">
-                    <span>Price</span>
-                    <span class="text-white font-bold">1.2 ETH</span>
+        </section>
+
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2>Why Choose StockWise?</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="icon">📈</i>
+                        <h3>Real-time Data</h3>
+                        <p>Stay ahead with live market updates and insightful analytics.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon">🔒</i>
+                        <h3>Secure Trading</h3>
+                        <p>Your assets are protected with industry-leading security protocols.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon">💡</i>
+                        <h3>Intuitive Platform</h3>
+                        <p>Easy-to-use interface for beginners and experienced traders alike.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon">💰</i>
+                        <h3>Low Fees</h3>
+                        <p>Maximize your returns with competitive and transparent pricing.</p>
+                    </div>
                 </div>
             </div>
-            <!-- Card 3 -->
-            <div class="glass p-5 rounded-2xl hover:border-purple-500 transition cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1636633968378-e53538183063?auto=format&fit=crop&w=400&q=80" class="rounded-xl mb-4 w-full h-64 object-cover">
-                <h3 class="font-bold text-xl">Neon Genesis</h3>
-                <div class="flex justify-between mt-4 text-sm text-gray-400">
-                    <span>Price</span>
-                    <span class="text-white font-bold">4.8 ETH</span>
+        </section>
+
+        <section id="how-it-works" class="how-it-works-section">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h3>Create Account</h3>
+                        <p>Sign up in minutes with a simple registration process.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h3>Fund Your Account</h3>
+                        <p>Deposit funds securely using various payment methods.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h3>Start Trading</h3>
+                        <p>Explore markets, analyze stocks, and execute trades instantly.</p>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Take Control of Your Investments?</h2>
+                <p>Join thousands of smart investors on StockWise today.</p>
+                <a href="#" class="btn primary large">Get Started Free</a>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-logo">StockWise</div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support</a>
+            </div>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
             </div>
         </div>
-    </section>
+        <p class="copyright">&copy; 2023 StockWise. All rights reserved.</p>
+    </footer>
 
     <script>
-        const connectBtn = document.getElementById('connectBtn');
-        
-        connectBtn.addEventListener('click', async () => {
-            if (window.ethereum) {
-                try {
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    connectBtn.innerText = accounts[0].substring(0, 6) + '...' + accounts[0].substring(38);
-                    connectBtn.classList.add('bg-green-600');
-                } catch (error) {
-                    alert("User rejected the request.");
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav ul li a, .footer-links a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - (document.querySelector('header').offsetHeight || 0), // Adjust for fixed header
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Optional: Add a class to header on scroll for styling (e.g., shrink, add shadow)
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
                 }
-            } else {
-                alert("Please install MetaMask to connect your wallet!");
+            });
+            // Example CSS for .scrolled class (add to <style> if desired):
+            /*
+            header.scrolled {
+                height: 60px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             }
+            header.scrolled nav ul li a {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            */
         });
     </script>
 </body>
