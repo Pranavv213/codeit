@@ -1,4 +1,3 @@
-# orchestrator_api.py
 import os
 import json
 import uuid
@@ -7,6 +6,7 @@ import uvicorn
 from typing import Dict
 from pydantic import BaseModel
 from fastapi import FastAPI, BackgroundTasks, HTTPException
+from fastapi.responses import FileResponse  # <--- Updated import
 from fastapi.middleware.cors import CORSMiddleware
 
 from app_schemas import A2ATaskRequest, A2AMessage, A2APart, A2ATaskResponse
@@ -100,6 +100,13 @@ app.add_middleware(
 class DeployRequest(BaseModel):
     app_id: str
     prompt: str
+
+# --- SERVE FRONTEND AT ROOT PATH ---
+@app.get("/", response_class=FileResponse)
+async def serve_frontend():
+    if not os.path.exists("frontend.html"):
+        raise HTTPException(status_code=404, detail="frontend.html not found")
+    return FileResponse("frontend.html")
 
 @app.post("/api/deploy")
 async def start_deploy(req: DeployRequest, background_tasks: BackgroundTasks):

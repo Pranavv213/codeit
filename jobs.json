@@ -18,5 +18,25 @@
   "app-nqslyso": {
     "status": "completed",
     "url": "https://allagent.vercel.app"
+  },
+  "app123": {
+    "status": "failed_tests",
+    "url": ""
+  },
+  "app1234": {
+    "status": "failed_tests",
+    "url": ""
+  },
+  "app-vjyfe4y": {
+    "status": "completed",
+    "url": "https://allagent.vercel.app"
+  },
+  "app-tpr5f0s": {
+    "status": "completed",
+    "url": "https://allagent.vercel.app"
+  },
+  "app-yd3k5yd": {
+    "status": "completed",
+    "url": "https://allagent.vercel.app"
   }
 }

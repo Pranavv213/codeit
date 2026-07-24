@@ -1,4 +1,3 @@
-# code_agent_server.py
 import uuid
 import uvicorn
 from typing import TypedDict
@@ -6,14 +5,18 @@ from fastapi import FastAPI
 from google import genai
 from google.genai import types
 from langgraph.graph import StateGraph, START, END
+from dotenv import load_dotenv  # <--- Added import
 
 from app_schemas import (
     AgentCard, AgentSkill, A2ATaskRequest, 
     A2ATaskResponse, A2AMessage, A2APart, A2AArtifact
 )
 
+# Load environment variables from .env file
+load_dotenv()  # <--- Loads GEMINI_API_KEY into os.environ
+
 app = FastAPI(title="A2A Code Generation Agent")
-client = genai.Client()
+client = genai.Client()  # Automatically picks up GEMINI_API_KEY from os.environ
 
 class CodeAgentState(TypedDict):
     prompt: str
